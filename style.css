@@ -1,0 +1,60 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 2em;
+  background: #f5faff;
+  color: #234;
+}
+h1 {
+  color: #2574a9;
+  margin-bottom: 1em;
+}
+form {
+  display: flex;
+  gap: 2em;
+  margin-bottom: 2em;
+  flex-wrap: wrap;
+}
+.city-panel {
+  background: #fff;
+  border: 1px solid #b3c6e0;
+  border-radius: 8px;
+  padding: 1em 2em;
+  box-shadow: 0 2px 8px #c7e0f7;
+  min-width: 250px;
+  flex: 1 1 260px;
+}
+.city-panel label {
+  display: block;
+  margin: 0.5em 0;
+}
+button[type="submit"] {
+  padding: 0.6em 2em;
+  font-size: 1.1em;
+  background: #2574a9;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  align-self: center;
+  height: 44px;
+}
+button[type="submit"]:hover {
+  background: #19567b;
+}
+#result {
+  background: #eaf6ff;
+  border: 1px solid #b3c6e0;
+  border-radius: 8px;
+  padding: 1.2em;
+  font-size: 1.15em;
+  margin-bottom: 1.5em;
+  max-width: 500px;
+}
+footer {
+  margin-top: 3em;
+  font-size: 0.97em;
+  color: #678;
+}
+footer a {
+  color: #2574a9;
+}
