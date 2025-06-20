@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Cost of Living Adjusted Salary Calculator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Cost of Living Adjusted Salary Calculator</h1>
+  <form id="salaryForm">
+    <div class="city-panel">
+      <h2>City 1</h2>
+      <label>Salary: <input type="number" id="salary1" required></label>
+      <label>Currency: <input type="text" id="currency1" value="USD" required></label>
+      <label>Cost of Living Index: <input type="number" id="coli1" value="100" required></label>
+      <label>Exchange Rate to USD: <input type="number" id="rate1" value="1" step="0.0001" required></label>
+    </div>
+    <div class="city-panel">
+      <h2>City 2</h2>
+      <label>Salary: <input type="number" id="salary2" required></label>
+      <label>Currency: <input type="text" id="currency2" value="INR" required></label>
+      <label>Cost of Living Index: <input type="number" id="coli2" value="30" required></label>
+      <label>Exchange Rate to USD: <input type="number" id="rate2" value="0.012" step="0.0001" required></label>
+    </div>
+    <button type="submit">Compare</button>
+  </form>
+  <div id="result"></div>
+  <footer>
+    <p>
+      Data sources: <a href="https://www.numbeo.com/cost-of-living/" target="_blank">Numbeo</a>, 
+      <a href="https://exchangerate-api.com/" target="_blank">ExchangeRate API</a>. <br>
+      Made by kunalthoratt.
+    </p>
+  </footer>
+  <script src="calc.js"></script>
+</body>
+</html>
