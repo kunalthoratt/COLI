@@ -41,62 +41,69 @@ const cityCOLIs = [
     { name: "Madrid, Spain", coli: 64 },
     { name: "Budapest, Hungary", coli: 46 },
     { name: "Warsaw, Poland", coli: 45 }
-    // ... add more as you wish
 ];
 
 // ==== City COLI Search Logic ====
-const citySearch = document.getElementById('citySearch');
-const cityResults = document.getElementById('cityResults');
+window.addEventListener('DOMContentLoaded', function() {
+    const citySearch = document.getElementById('citySearch');
+    const cityResults = document.getElementById('cityResults');
+    const city1 = document.getElementById('city1');
+    const city2 = document.getElementById('city2');
+    const coli1 = document.getElementById('coli1');
+    const coli2 = document.getElementById('coli2');
 
-citySearch.addEventListener('input', function() {
-    const query = citySearch.value.trim().toLowerCase();
-    cityResults.innerHTML = '';
-    if (query.length === 0) return;
-    const matches = cityCOLIs.filter(c => c.name.toLowerCase().includes(query));
-    matches.forEach(c => {
-        const li = document.createElement('li');
-        li.textContent = `${c.name} (COLI: ${c.coli})`;
-        li.onclick = () => {
-            // Ask user which city panel to fill (1 or 2)
-            let panel = "1";
-            if (document.getElementById('city1').value.length > 0 && document.getElementById('coli1').value) {
-                // If City 1 is already filled, suggest City 2
-                panel = "2";
-            }
-            // Confirm with user
-            if (panel === "1" && document.getElementById('coli1').value.length > 0) {
-                panel = prompt("Copy COLI to City 1 or 2? Enter 1 or 2:", "1") || "1";
-            } else if (panel === "2" && document.getElementById('coli2').value.length > 0) {
-                panel = prompt("Copy COLI to City 1 or 2? Enter 1 or 2:", "2") || "2";
-            }
-            if (panel === "1") {
-                document.getElementById('city1').value = c.name;
-                document.getElementById('coli1').value = c.coli;
-            } else if (panel === "2") {
-                document.getElementById('city2').value = c.name;
-                document.getElementById('coli2').value = c.coli;
-            }
-        };
-        cityResults.appendChild(li);
-    });
-});
-
-// ==== Calculator Logic ====
-document.getElementById('calcForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const coli1 = parseFloat(document.getElementById('coli1').value);
-    const coli2 = parseFloat(document.getElementById('coli2').value);
-    const salary = parseFloat(document.getElementById('currentSalary').value);
-
-    if (isNaN(coli1) || isNaN(coli2) || isNaN(salary) || coli1 <= 0 || coli2 <= 0 || salary <= 0) {
-        document.getElementById('result').style.display = 'block';
-        document.getElementById('result').textContent = "Please enter valid, positive numbers for all fields.";
-        return;
+    if (citySearch && cityResults) {
+        citySearch.addEventListener('input', function() {
+            const query = citySearch.value.trim().toLowerCase();
+            cityResults.innerHTML = '';
+            if (query.length === 0) return;
+            const matches = cityCOLIs.filter(c => c.name.toLowerCase().includes(query));
+            matches.forEach(c => {
+                const li = document.createElement('li');
+                li.textContent = `${c.name} (COLI: ${c.coli})`;
+                li.onclick = () => {
+                    let panel = "1";
+                    if (city1.value.length > 0 && coli1.value) {
+                        panel = "2";
+                    }
+                    if ((panel === "1" && coli1.value.length > 0) || (panel === "2" && coli2.value.length > 0)) {
+                        panel = prompt("Copy COLI to City 1 or 2? Enter 1 or 2:", panel) || panel;
+                    }
+                    if (panel === "1") {
+                        city1.value = c.name;
+                        coli1.value = c.coli;
+                    } else if (panel === "2") {
+                        city2.value = c.name;
+                        coli2.value = c.coli;
+                    }
+                };
+                cityResults.appendChild(li);
+            });
+        });
     }
 
-    const equivalentSalary = Math.round((salary * coli2 / coli1) * 100) / 100;
+    // ==== Calculator Logic ====
+    const form = document.getElementById('calcForm');
+    const resultDiv = document.getElementById('result');
 
-    document.getElementById('result').style.display = 'block';
-    document.getElementById('result').innerHTML = 
-        `To maintain the same standard of living, you would need a salary of <strong>${equivalentSalary}</strong> in <strong>${document.getElementById('city2').value || 'your target city'}</strong>.`;
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const coli1Val = parseFloat(coli1.value);
+            const coli2Val = parseFloat(coli2.value);
+            const salaryVal = parseFloat(document.getElementById('currentSalary').value);
+
+            if (isNaN(coli1Val) || isNaN(coli2Val) || isNaN(salaryVal) || coli1Val <= 0 || coli2Val <= 0 || salaryVal <= 0) {
+                resultDiv.style.display = 'block';
+                resultDiv.textContent = "Please enter valid, positive numbers for all fields.";
+                return;
+            }
+
+            const equivalentSalary = Math.round((salaryVal * coli2Val / coli1Val) * 100) / 100;
+
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = 
+                `To maintain the same standard of living, you would need a salary of <strong>${equivalentSalary}</strong> in <strong>${city2.value || 'your target city'}</strong>.`;
+        });
+    }
 });
